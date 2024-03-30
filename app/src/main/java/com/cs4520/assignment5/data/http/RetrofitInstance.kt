@@ -21,5 +21,5 @@ object RetrofitInstance {
 
 interface Api {
     @GET("prod/random/")
-    fun getProducts(@Query("page") page: Int? = null): Call<List<Product>>
+    fun getProducts(@Query("page") page: Int = 0): Call<List<Product>>
 }

@@ -11,27 +11,31 @@ class ProductRepository(
     private val localDataSource: ProductDao,
 ) {
 
-   suspend fun getProducts(page: Int? = null): List<Product> {
-        val products: MutableSet<Product> = mutableSetOf()
+    suspend fun getProducts(page: Int = 0): List<Product> {
+        var products: List<Product>
         try {
-            Log.d("API","Fetching products from remote source")
-            val response = remoteDataSource.getProducts(page).awaitResponse()
-            if (response.isSuccessful) {
-                Log.d("API", "Successfully retrieved products: ${response.body()}")
-            } else {
-                Log.e("API", "Failed to retrieve products: ${response.errorBody()}")
-            }
-            response.body()?.let { products.addAll(it) }
-            localDataSource.insertAll(products.toList())
+            products = getProductsNetwork(page)
+            saveToDatabase(products)
         } catch (e: Exception) {
-            Log.d("Error: ", e.toString())
-            Log.d("API","Failed to fetch products from remote source, trying database")
-            products.addAll(localDataSource.get(page?:0))
+            Log.e("API", "Failed to get products from network: $e")
+            products = getProductsLocal(page)
         }
-       if (products.isEmpty()) {
-           products.addAll(localDataSource.get(page?:0))
-       }
-       Log.d("API","Returning products: $products")
+        return products.ifEmpty { getProductsNetwork(page) }
+    }
+
+    suspend fun getProductsNetwork(page: Int): List<Product> {
+        val products: MutableSet<Product> = mutableSetOf()
+        val response = remoteDataSource.getProducts(page).awaitResponse()
+        response.body()?.let { products.addAll(it) }
         return products.toList()
     }
+
+    suspend fun getProductsLocal(page: Int): List<Product> {
+        return localDataSource.get(page)
+    }
+
+    suspend fun saveToDatabase(products: List<Product>) {
+        localDataSource.insertAll(products)
+    }
+
 }
