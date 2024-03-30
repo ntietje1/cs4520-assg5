@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cs4520.assignment1.data.Product
 import com.cs4520.assignment5.R
 
@@ -27,7 +28,6 @@ fun ProductItem(product: Product) {
     Row(
         modifier = Modifier
             .wrapContentWidth()
-            .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
             .then(
                 when (product.type) {
                     "Equipment" -> Modifier.background(Color(0xFFE06666))
@@ -41,11 +41,12 @@ fun ProductItem(product: Product) {
         Text(
             text = product.name,
             modifier = Modifier
-                .width(100.dp)
-                .height(25.dp)
+                .width(140.dp)
+                .height(40.dp)
                 .padding(start = 10.dp),
             color = Color.Black,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            fontSize = 12.sp
         )
 
         val image = when (product.type) {
@@ -66,20 +67,22 @@ fun ProductItem(product: Product) {
         Text(
             text = product.expiryDate ?: "",
             modifier = Modifier
-                .width(100.dp)
-                .height(25.dp),
+                .width(80.dp)
+                .height(40.dp),
             color = Color.Black,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontSize = 12.sp
         )
 
         Text(
             text = "$" + product.price.toString(),
             modifier = Modifier
                 .width(50.dp)
-                .height(25.dp)
+                .height(40.dp)
                 .padding(end = 10.dp),
             color = Color.Black,
-            textAlign = TextAlign.End
+            textAlign = TextAlign.End,
+            fontSize = 12.sp
         )
     }
 }
