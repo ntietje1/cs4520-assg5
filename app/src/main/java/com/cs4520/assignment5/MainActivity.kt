@@ -12,8 +12,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val appContainer = (application as App).appContainer
-        application?.applicationContext?.let { appContainer.initLocalDataSource(it) }
-        application?.applicationContext?.let { appContainer.initProductRepository(it) }
+        application?.applicationContext?.let { context -> appContainer.initProductRepository(context) }
 
         setContent {
             AppNavigator()

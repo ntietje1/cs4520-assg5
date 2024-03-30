@@ -12,15 +12,12 @@ class AppContainer {
     private lateinit var localDataSource: ProductDao
     lateinit var productRepository: ProductRepository
 
-    fun initLocalDataSource(context: Context) {
+    fun initProductRepository(context: Context) {
         localDataSource =
             Room.databaseBuilder(
                 context,
                 ProductDatabase::class.java, "database-name"
             ).build().productDao()
-    }
-
-    fun initProductRepository(context: Context) {
-        productRepository = ProductRepository(remoteDataSource, localDataSource, context)
+        productRepository = ProductRepository(remoteDataSource, localDataSource)
     }
 }
