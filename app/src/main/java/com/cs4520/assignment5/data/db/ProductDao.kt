@@ -9,15 +9,15 @@ import com.cs4520.assignment1.data.Product
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM product LIMIT 30")
-    fun get(): List<Product>
+    suspend fun get(): List<Product>
 
     @Query("SELECT * FROM product LIMIT 30 OFFSET :page * 30")
-    fun get(page: Int): List<Product>
+    suspend fun get(page: Int = 0): List<Product>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(products: List<Product>)
+    suspend fun insertAll(products: List<Product>)
 
     @Query("DELETE FROM product")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
 

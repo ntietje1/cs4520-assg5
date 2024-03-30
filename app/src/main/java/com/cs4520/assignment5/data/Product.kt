@@ -11,9 +11,3 @@ data class Product(
     @ColumnInfo val expiryDate: String?,
     @ColumnInfo val price: Float?
 )
-
-enum class ProductType {
-    Equipment,
-    Food,
-    Other
-}
