@@ -24,7 +24,6 @@ import com.cs4520.assignment5.ui.products.components.ProductList
 @Composable
 fun ProductScreen(viewModel: ProductViewModel = viewModel(factory = ProductViewModel.Factory)) {
     val state by viewModel.state.collectAsState()
-    Text("Products", style = MaterialTheme.typography.h4, modifier = Modifier.padding(16.dp))
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -42,6 +41,7 @@ fun ProductScreen(viewModel: ProductViewModel = viewModel(factory = ProductViewM
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text("Products", style = MaterialTheme.typography.h4, modifier = Modifier.padding(top = 16.dp))
             ProductList(products = state.products)
             if (state.products.isEmpty() && !state.isLoading) {
                 Text(
